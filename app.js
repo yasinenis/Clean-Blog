@@ -33,6 +33,12 @@ app.get('/add_post', (req, res) => {
   res.render('add_post');
 });
 
+// post pages seperatedly
+app.get('/posts/:id', async (req, res) => {
+  const post = await Post.findById(req.params.id);
+  res.render('post', { post });
+});
+
 app.post('/posts', async (req, res) => {
   await Post.create(req.body);
   res.redirect('/');
