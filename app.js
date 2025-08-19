@@ -4,6 +4,8 @@ import Post from './models/Post.js';
 
 import mongoose from 'mongoose';
 
+import methodOverride from 'method-override';
+
 const app = express();
 
 // connect DB
@@ -18,6 +20,12 @@ app.use(express.static('public'));
 
 app.use(express.urlencoded({ extended: true })); // helps us to read data in url
 app.use(express.json()); // converts url data to json
+
+app.use(
+  methodOverride('_method', {
+    methodS: ['POST', 'GET'],
+  })
+);
 
 // ROUTES
 app.get('/', async (req, res) => {
@@ -42,6 +50,19 @@ app.get('/posts/:id', async (req, res) => {
 app.post('/posts', async (req, res) => {
   await Post.create(req.body);
   res.redirect('/');
+});
+
+app.get('/posts/edit/:id', async (req, res) => {
+  const post = await Post.findById(req.params.id);
+  res.render('edit', { post });
+});
+
+app.put('/posts/:id', async (req, res) => {
+  const post = await Post.findOne({ _id: req.params.id });
+  post.title = req.body.title;
+  post.detail = req.body.detail;
+  post.save();
+  res.redirect(`/posts/${req.params.id}`);
 });
 
 const port = 3000;
