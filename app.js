@@ -23,7 +23,7 @@ app.use(express.json()); // converts url data to json
 
 app.use(
   methodOverride('_method', {
-    methodS: ['POST', 'GET'],
+    methods: ['POST', 'GET'],
   })
 );
 
@@ -59,10 +59,18 @@ app.get('/posts/edit/:id', async (req, res) => {
 
 app.put('/posts/:id', async (req, res) => {
   const post = await Post.findOne({ _id: req.params.id });
+  const content = req.body.write;
+  const newContent = content.replace(/\/t\s*(.*?)\s*\/t/g, '<h4>$1</h4>');
   post.title = req.body.title;
   post.detail = req.body.detail;
-  post.save();
+  post.write = newContent;
+  await post.save();
   res.redirect(`/posts/${req.params.id}`);
+});
+
+app.delete('/posts/:id', async (req, res) => {
+  await Post.findByIdAndDelete(req.params.id);
+  res.redirect('/');
 });
 
 const port = 3000;
