@@ -35,3 +35,9 @@
   font-size: 16px;
   padding: 25px 35px;
 }
+
+.hea > h2 {
+  font-size:36px;
+  font-weight:700;
+  margin-top:60px
+} 

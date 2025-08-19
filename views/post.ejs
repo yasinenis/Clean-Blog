@@ -26,7 +26,7 @@
   <article>
     <div class="container">
       <div class="row">
-        <div class="col-lg-8 col-md-10 mx-auto" style="white-space: pre-line;">
+        <div class="hea col-lg-8 col-md-10 mx-auto" style="white-space: pre-line;">
           <%- post.write -%>
 
           <!-- 
@@ -46,7 +46,7 @@
         <a href="/posts/edit/<%= post._id %>" class=" btn btn-primary">Update Post</a>
       </div>
       <div style="margin-left: 5px;" class="bg-white d-flex align-items-center">
-        <a href="/posts/<%= post._id %>?_method=DELETE" class="btn-sec">Delete Post</a>
+        <a href="/posts/<%= post._id %>?_method=DELETE" onclick="return confirm('Are you sure? The picture will bee deleted permanently!')" class="btn-sec">Delete Post</a>
       </div>
     </div>
   </div>
